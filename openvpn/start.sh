@@ -93,8 +93,9 @@ if [[ ${VPN_ENABLED} == "yes" ]]; then
 	info "OpenVPN credentials file set to 644"
 
 	# convert CRLF (windows) to LF (unix) for ovpn
-	/usr/bin/dos2unix ${VPN_CONFIG} 1> /dev/null
-	info "Converted CRLF to LF for ovpn"
+ 	# removing this as well, assuming openvpn conf files are already in unix format
+	#/usr/bin/dos2unix ${VPN_CONFIG} 1> /dev/null
+	#info "Converted CRLF to LF for ovpn"
 
 	# parse values from ovpn file
 	export vpn_remote_line=$(cat ${VPN_CONFIG} | grep -P -o -m 1 '(?<=^remote\s)[^\n\r]+' | sed -e 's~^[ \t]*~~;s~[ \t]*$~~')
