@@ -225,7 +225,7 @@ fi
 if [[ $VPN_ENABLED == yes ]]; then
 	info "Starting OpenVPN..."
 	cd /config/openvpn
-	exec openvpn --config ${VPN_CONFIG} &
+	exec openvpn --config ${VPN_CONFIG} --auth-user-pass credentials.conf &
 	sleep 5
 	exec /bin/bash /etc/qbittorrent/iptables.sh
 else
