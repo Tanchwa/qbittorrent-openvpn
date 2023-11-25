@@ -71,9 +71,11 @@ if [[ ${VPN_ENABLED} == "yes" ]]; then
 		if [[ ! -e /config/openvpn/credentials.conf ]]; then
 			touch /config/openvpn/credentials.conf
 		fi
-
+  
+		# for some reason, the following is adding eroneous new lines
+		# this may be contained within the secret itself, but I double checked and didn't find it
   	        cat <<-EOF > /config/openvpn/credentials.conf
-${VPN_USERNAME}\n${VPN_PASSWORD}
+${VPN_USERNAME}${VPN_PASSWORD}
 		EOF
 
 		# inject credentials.conf reference
