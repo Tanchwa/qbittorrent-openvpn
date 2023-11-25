@@ -73,8 +73,7 @@ if [[ ${VPN_ENABLED} == "yes" ]]; then
 		fi
 
   	        cat <<-EOF > /config/openvpn/credentials.conf
-    		${VPN_USERNAME}
-      		${VPN_PASSWORD}
+${VPN_USERNAME}\n${VPN_PASSWORD}
 		EOF
 
 		# inject credentials.conf reference
