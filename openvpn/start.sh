@@ -72,7 +72,7 @@ if [[ ${VPN_ENABLED} == "yes" ]]; then
 			touch /config/openvpn/credentials.conf
 		fi
 
-  		cat <<EOF > /config/openvpn/credentials.conf
+  	        cat <<-EOF > /config/openvpn/credentials.conf
     		${VPN_USERNAME}
       		${VPN_PASSWORD}
 		EOF
