@@ -72,8 +72,10 @@ if [[ ${VPN_ENABLED} == "yes" ]]; then
 			touch /config/openvpn/credentials.conf
 		fi
 
-		echo "${VPN_USERNAME}" | tr -d "[:space:]" > /config/openvpn/credentials.conf
-		echo "${VPN_PASSWORD}" | tr -d "[:space:]" >> /config/openvpn/credentials.conf
+  		cat <<EOF > /config/openvpn/credentials.conf
+    		${VPN_USERNAME}
+      		${VPN_PASSWORD}
+		EOF
 
 		# inject credentials.conf reference
 		# since I have access to the VPN_CONF file through a config map, I hardcoded the auth-user-pass file value there
