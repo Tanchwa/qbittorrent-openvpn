@@ -78,14 +78,14 @@ if [[ ${VPN_ENABLED} == "yes" ]]; then
 		# inject credentials.conf reference
 		# since I have access to the VPN_CONF file through a config map, I hardcoded the auth-user-pass file value there
   		# the sed command was erroring out anyway: sed: cannot rename /config/openvpn/sedOYwL96: Device or resource busy
-  		# auth_cred_exist=$(cat ${VPN_CONFIG} | grep -m 1 'auth-user-pass')
-		# if [[ -n ${auth_cred_exist} ]]; then
-		#	# get line number of auth-user-pass
-		#	LINE_NUM=$(grep -Fn -m 1 'auth-user-pass' ${VPN_CONFIG} | cut -d: -f 1)
-		#	sed -i'' "${LINE_NUM}s/.*/auth-user-pass credentials.conf\n/" ${VPN_CONFIG}
-		# else
-		#	sed -i'' "1s/.*/auth-user-pass credentials.conf\n/" ${VPN_CONFIG}
-		# fi
+  		auth_cred_exist=$(cat ${VPN_CONFIG} | grep -m 1 'auth-user-pass')
+		if [[ -n ${auth_cred_exist} ]]; then
+			# get line number of auth-user-pass
+			LINE_NUM=$(grep -Fn -m 1 'auth-user-pass' ${VPN_CONFIG} | cut -d: -f 1)
+			sed -i'' "${LINE_NUM}s/.*/auth-user-pass credentials.conf\n/" ${VPN_CONFIG}
+		else
+			sed -i'' "1s/.*/auth-user-pass credentials.conf\n/" ${VPN_CONFIG}
+		fi
 	fi
 
 	# set safe perms on openvpn credential file
@@ -93,8 +93,7 @@ if [[ ${VPN_ENABLED} == "yes" ]]; then
 	info "OpenVPN credentials file set to 644"
 
 	# convert CRLF (windows) to LF (unix) for ovpn
- 	# removing this as well, assuming openvpn conf files are already in unix format
-	#/usr/bin/dos2unix ${VPN_CONFIG} 1> /dev/null
+	/usr/bin/dos2unix ${VPN_CONFIG} 1> /dev/null
 	#info "Converted CRLF to LF for ovpn"
 
 	# parse values from ovpn file
@@ -225,7 +224,7 @@ fi
 if [[ $VPN_ENABLED == yes ]]; then
 	info "Starting OpenVPN..."
 	cd /config/openvpn
-	exec openvpn --config ${VPN_CONFIG} --auth-user-pass credentials.conf &
+	exec openvpn --config ${VPN_CONFIG} &
 	sleep 5
 	exec /bin/bash /etc/qbittorrent/iptables.sh
 else
