@@ -78,14 +78,14 @@ if [[ ${VPN_ENABLED} == "yes" ]]; then
 		# inject credentials.conf reference
 		# since I have access to the VPN_CONF file through a config map, I hardcoded the auth-user-pass file value there
   		# the sed command was erroring out anyway: sed: cannot rename /config/openvpn/sedOYwL96: Device or resource busy
-  		auth_cred_exist=$(cat ${VPN_CONFIG} | grep -m 1 'auth-user-pass')
-		if [[ -n ${auth_cred_exist} ]]; then
-			# get line number of auth-user-pass
-			LINE_NUM=$(grep -Fn -m 1 'auth-user-pass' ${VPN_CONFIG} | cut -d: -f 1)
-			sed -i'' "${LINE_NUM}s/.*/auth-user-pass credentials.conf\n/" ${VPN_CONFIG}
-		else
-			sed -i'' "1s/.*/auth-user-pass credentials.conf\n/" ${VPN_CONFIG}
-		fi
+  		# auth_cred_exist=$(cat ${VPN_CONFIG} | grep -m 1 'auth-user-pass')
+		#if [[ -n ${auth_cred_exist} ]]; then
+		#	# get line number of auth-user-pass
+		#	LINE_NUM=$(grep -Fn -m 1 'auth-user-pass' ${VPN_CONFIG} | cut -d: -f 1)
+		#	sed -i'' "${LINE_NUM}s/.*/auth-user-pass credentials.conf\n/" ${VPN_CONFIG}
+		#else
+		#	sed -i'' "1s/.*/auth-user-pass credentials.conf\n/" ${VPN_CONFIG}
+		#fi
 	fi
 
 	# set safe perms on openvpn credential file
